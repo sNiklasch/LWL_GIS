@@ -1,5 +1,3 @@
-
-
 function interpolate(pBegin, pEnd, pStep, pMax) {
   if (pBegin < pEnd) {
     return ((pEnd - pBegin) * (pStep / pMax)) + pBegin;
