@@ -418,6 +418,9 @@ function reCenterAndZoom(center, zoom, extent, frameNr) {
 function onLoadCheck() {
     if (self.name == "frame2") {
         document.getElementById("splitDiv").removeChild(document.getElementById("slideAwayButton_split"));
+        if(map != null){
+          map.setLevel(parent.frames[0].map.getLevel());
+        }
     }
 
 }
