@@ -1,0 +1,52 @@
+
+.myButton {
+	
+	
+	background: #9cb5e6;
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	
+	font-family:verdana;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 5px;
+	text-decoration:none;
+	
+}.myButton:hover {
+	
+	background-color:#dbdbdb;
+	
+}.myButton:active {
+	position:right;
+	top:1px;
+}
+
+.myButtonx {
+	
+	
+	background: #9cb5e6;
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	
+	font-family:verdana;
+	font-size:10px;
+	font-weight:bold;
+	padding:4px 5px;
+	text-decoration:none;
+	
+}.myButtonx:hover {
+	
+	background-color:#dbdbdb;
+	
+}.myButtonx:active {
+	position:right;
+	top:1px;
+}
