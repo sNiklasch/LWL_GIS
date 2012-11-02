@@ -3,8 +3,7 @@ dojo.require("dojo.fx");
 var breite = window.innerWidth - 450;
 var classesBtn = null;
 var legendBtn = null;
-var classesBtnClicked = false;
-var legendBtnClicked = false;
+
 
 
 dojo.ready(function () {
@@ -19,9 +18,10 @@ dojo.ready(function () {
         slideAwayButton_legend = dojo.byId("slideAwayButton_legend"),
         slideBackButton_legend = dojo.byId("slideBackButton_legend"),
         slideTarget_legend = dojo.byId("slideTarget_legend"),
+        
         slideAwayButton_split = dojo.byId("slideAwayButton_split");
 
-
+	
     var layerBtnClicked = false;
     dojo.connect(slideAwayButton_layer, "onclick", function (evt) {
         if (!layerBtnClicked) {
@@ -63,6 +63,34 @@ dojo.ready(function () {
 
 
 
+	
+    
+	var classesBtnClicked = false;    
+    dojo.connect(slideAwayButton_classes, "onclick", function (evt) {
+        if (!classesBtnClicked) {
+            dojo.fx.combine([
+            dojo.fadeIn({
+                node: slideTarget_classes
+            }),
+            dojo.fx.slideTo({
+                node: slideTarget_classes,
+                left: map.width - 450,
+                top: "150"
+            })]).play();
+            classesBtnClicked = true;
+        } else {
+            dojo.fx.combine([
+            dojo.fx.slideTo({
+                node: slideTarget_classes,
+                left: map.width + 50,
+                top: "150"
+            }),
+            dojo.fadeOut({
+                node: slideTarget_classes
+            })]).play();
+            classesBtnClicked = false;
+        }
+    });
     dojo.connect(slideBackButton_classes, "onclick", function (evt) {
         dojo.fx.combine([
         dojo.fx.slideTo({
@@ -77,8 +105,35 @@ dojo.ready(function () {
     });
 
 
-
+	var legendBtnClicked = false;
+	dojo.connect(slideAwayButton_legend, "onclick", function (evt) {
+        if (!legendBtnClicked) {
+            dojo.fx.combine([
+            dojo.fadeIn({
+                node: slideTarget_legend
+            }),
+            dojo.fx.slideTo({
+                node: slideTarget_legend,
+                left: 25,
+                top: map.height - 300
+            })]).play();
+            legendBtnClicked = true;
+        } else {
+            dojo.fx.combine([
+            dojo.fx.slideTo({
+                node: slideTarget_legend,
+                left: - 50,
+                top: map.height - 300
+            }),
+            dojo.fadeOut({
+                node: slideTarget_legend
+            })]).play();
+            legendBtnClicked = false;
+        }
+    });
+    
     dojo.connect(slideBackButton_legend, "onclick", function (evt) {
+		console.log("click legend");
         dojo.fx.combine([
         dojo.fx.slideTo({
             node: slideTarget_legend,
