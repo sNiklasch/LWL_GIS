@@ -133,15 +133,14 @@
     <p>
       Klasseneinteilung:
     </p>
-    
-    <!-- Individual classes 
+    <!-- Individual classes -->
     <div id="breaksPane" dojoType="dijit.TitlePane" title="Individuell" open="true" style="width:280px; overflow:auto; max-height:230px;">
       <a href="javascript:addIndivBreakField()">
         <img src="images/plus20.png">
       </a>
       <table id="Breaks">
       </table>
-    </div> -->
+    </div>
     <!-- Automatic classes (equal breaks) -->
     <div dojoType="dijit.TitlePane" title="Automatisch" open="true" style="width:280px; overflow:auto;">
       <table border="0">

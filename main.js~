@@ -369,7 +369,7 @@ function addEqualBreaks(number, colorStart, colorEnd) {
     symbol.setColor(new dojo.Color([150, 150, 150, 0.75]));
     var renderer = new esri.renderer.ClassBreaksRenderer(symbol, attributeFields[activeLayer]);
     
-    for (var i = 0; i < number; i++) {
+    for (var i = 0; i <= number; i++) {
         renderer.addBreak(Math.round((minValues[activeLayer] + i * breakStep) / 10) * 10,
         Math.round((minValues[activeLayer] + (i + 1) * breakStep) / 10) * 10,
         new esri.symbol.SimpleFillSymbol().setColor(dojo.colorFromHex('#' + colorArray[i])));
