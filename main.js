@@ -109,6 +109,11 @@ function init() {
         }, "legend");
         legend.startup();
     });
+    
+    dojo.connect(map, 'onZoomEnd', function() { //generalize vector map for faster loading, see calcOffset() documentation
+      map.maxOffset = calcOffset();
+      featureLayer.setMaxAllowableOffset(map.maxOffset);
+    });
 
 
 
@@ -188,17 +193,8 @@ function initOperationalLayer() {
     featureLayer.setSelectionSymbol(new esri.symbol.SimpleFillSymbol());
     map.addLayers([featureLayer]);
 
-    dojo.connect(map, 'onZoomEnd', function() { //'simplify' vector map for faster loading, see calcOffset() documentation
-      map.maxOffset = calcOffset();
-      map.fl.setMaxAllowableOffset(app.maxOffset);
-    });
-
-
-    console.log("layerIds:" + map.graphicsLayerIds);
-
-
-
 }
+
 
 /**
 * see http://help.arcgis.com/en/webapi/javascript/arcgis/help/jshelp_start.htm#jshelp/best_practices_feature_layers.htm
