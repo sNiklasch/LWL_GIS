@@ -52,7 +52,7 @@ var counter = 0;
 function init() {
     addTooltips(); //the mouse-over tooltips are created programmatically
     initDiagramFields(); //initialize which fields should be used for which diagram layer
-    var popup = new esri.dijit.Popup(null, dojo.create("div")); //ini popups for diagrams
+    var popup = new esri.dijit.Popup(null, dojo.create("div")); //init popups for diagrams
 
     esri.config.defaults.io.proxyUrl = "/arcgisserver/apis/javascript/proxy/proxy.ashx";
 
@@ -134,7 +134,6 @@ function init() {
     tiledMapServiceLayer = new esri.layers.ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer");
     osmLayer = new esri.layers.OpenStreetMapLayer();
     map.addLayer(osmLayer);
-
 
     onLoadCheck();
 
@@ -398,16 +397,18 @@ function executeQueryTask(evt) {
 function reLocate() {
 	for (var i = 0; i < parent.frames.length; i++) { //go through all frames and re-center
 		if (parent.frames[i].name != self.name) {
-			parent.frames[i].reCenterAndZoom(map.extent.getCenter(), map.getLevel(), map.extent, i);
+			parent.frames[i].reCenterAndZoom(map.extent.getCenter(), map.getLevel()); //due to the frame problematic this does not work sometimes and causes errors
 		}
 	}
 }
 
+
 /**
  * in split mode, synchronize zoom levels between both frames
+ * (not used anymore)
  */
 function syncZoom(extent, zoomFactor, anchor, level) {
-    console.log("zoom");
+    console.log("zoom from frame" + self.name);
     for (var i = 0; i < parent.frames.length; i++) {
         if (parent.frames[i].name != self.name) { 
             try {
@@ -426,9 +427,15 @@ function syncZoom(extent, zoomFactor, anchor, level) {
  * check counter (check if the pan happened through actual mouse input) and
  * if the centers of both maps aren't identical
  */
-function reCenterAndZoom(center, zoom, extent, frameNr) {
+function reCenterAndZoom(center, zoom) {
 	if (counter < 1 && map.extent.getCenter().x != center.x && map.extent.getCenter().y != center.y) {
-        map.centerAndZoom(center, zoom);
+        if(zoom == map.getLevel()){
+          console.log("zoom and map lvl equal");
+          map.centerAt(center);
+        }else{
+          console.log("zoom and map lvl: " + zoom + "  " + map.getLevel());
+          map.centerAndZoom(center, zoom);
+        }
     }
     counter++; //is only reset to zero on onMouseDown()
 }
@@ -441,7 +448,9 @@ function onLoadCheck() {
     if (self.name == "frame2") {
         document.getElementById("splitDiv").removeChild(document.getElementById("slideAwayButton_split"));
         if(map != null){
-          map.setLevel(parent.frames[0].map.getLevel());
+          console.log("onLoadCheck doing no zooming");
+          //reLocate();
+          //map.setLevel(parent.frames[0].map.getLevel());
         }
     }
 
