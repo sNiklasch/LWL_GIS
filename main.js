@@ -25,7 +25,7 @@ dojo.require("esri.dijit.BasemapGallery");
 dojo.require("esri.arcgis.utils");
 dojo.require("dijit.Tooltip");
 dojo.require("dijit.form.Slider");
-
+dojo.require("dojo.fx");
 
 var breakCount = 0; // keep track of how many individual breaks have been created, used to fetch the correct field values
 var featureLayer; // the active data overlay
@@ -109,16 +109,17 @@ function init() {
         }, "legend");
         legend.startup();
     });
-    
-    dojo.connect(map, 'onZoomEnd', function() { //generalize vector map for faster loading, see calcOffset() documentation
-      map.maxOffset = calcOffset();
-      featureLayer.setMaxAllowableOffset(map.maxOffset);
-    });
 
 
-
-    //resize the map when the browser resizes
-    dojo.connect(dijit.byId('map'), 'resize', map, map.resize);
+    //resize the map when the browser resizes (CAUSES BUGS, this causes the map to randomly zoom on split mode creation)
+    var resizeTimer;
+    dojo.connect(dijit.byId('map'), 'resize', function() {  //resize the map if the div is resized
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout( function() {
+          //map.resize();
+          map.reposition();
+        }, 500);
+      });
 
     //Scalebar
     dojo.connect(map, 'onLoad', function (theMap) {
@@ -127,7 +128,7 @@ function init() {
             scalebarUnit: 'metric',
             attachTo: "bottom-left"
         });
-        dojo.connect(dijit.byId('map'), 'resize', map, map.resize);
+        //dojo.connect(dijit.byId('map'), 'resize', map, map.resize);
     });
 
     //Baselayer
@@ -137,7 +138,8 @@ function init() {
 
     onLoadCheck();
 
-	initialColorization();
+	  initialColorization();
+	  reLocate();
 }
 
 
@@ -186,7 +188,6 @@ function initOperationalLayer() {
     featureLayer = new esri.layers.FeatureLayer("http://giv-learn.uni-muenster.de/ArcGIS/rest/services/LWL/lwl_collection/MapServer/" + activeLayer, {
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
         outFields: ["*"], //use all available fields in the data
-        maxAllowableOffset: calcOffset(),
         opacity: .50
     });
     featureLayer.setSelectionSymbol(new esri.symbol.SimpleFillSymbol());
@@ -197,6 +198,7 @@ function initOperationalLayer() {
 
 /**
 * see http://help.arcgis.com/en/webapi/javascript/arcgis/help/jshelp_start.htm#jshelp/best_practices_feature_layers.htm
+* since changed API version to 2.7 this is method not used anymore
 */
 function calcOffset() {
   return (map.extent.getWidth() / map.width);
@@ -412,8 +414,8 @@ function syncZoom(extent, zoomFactor, anchor, level) {
     for (var i = 0; i < parent.frames.length; i++) {
         if (parent.frames[i].name != self.name) { 
             try {
+                console.log("Zoom from syncZoom in frame: " + parent.frames[i].name);
                 parent.frames[i].counter = 0;
-                console.log(level + "/" + zoomFactor);
                 parent.frames[i].map.setLevel(level);
             } catch (err) {
                 console.log("zoom failed");
@@ -430,10 +432,8 @@ function syncZoom(extent, zoomFactor, anchor, level) {
 function reCenterAndZoom(center, zoom) {
 	if (counter < 1 && map.extent.getCenter().x != center.x && map.extent.getCenter().y != center.y) {
         if(zoom == map.getLevel()){
-          console.log("zoom and map lvl equal");
           map.centerAt(center);
         }else{
-          console.log("zoom and map lvl: " + zoom + "  " + map.getLevel());
           map.centerAndZoom(center, zoom);
         }
     }
@@ -448,8 +448,9 @@ function onLoadCheck() {
     if (self.name == "frame2") {
         document.getElementById("splitDiv").removeChild(document.getElementById("slideAwayButton_split"));
         if(map != null){
-          console.log("onLoadCheck doing no zooming");
           //reLocate();
+          //parent.frames[0].map.setLevel(map.getLevel());
+          //map.centerAndZoom(parent.frames[0].map.extent.getCenter(), parent.frames[0].map.getLevel());
           //map.setLevel(parent.frames[0].map.getLevel());
         }
     }
