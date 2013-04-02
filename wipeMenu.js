@@ -1,5 +1,7 @@
 dojo.require("dojo.fx");
 var breite = window.innerWidth-450;
+//var breite = document.getElementById("map").width;
+//console.log("breite: " + breite);
 var classesBtn = null;
 var legendBtn = null;
 var classesBtnClicked = false;
