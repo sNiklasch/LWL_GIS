@@ -282,7 +282,22 @@ function colorChange(count) {
  * This method is used to initially set classes - only used at startup! 
  */
 function initialColorization(){
-	addEqualBreaks(3, "FF0000", "00FF00");
+	symbol = new esri.symbol.SimpleFillSymbol();
+    symbol.setColor(new dojo.Color([150, 150, 150, 0.75]));
+    var renderer = new esri.renderer.ClassBreaksRenderer(symbol, attributeFields[activeLayer]);
+    
+    //the values are layer dependent, so if another initial layer is chosen, these values MUST be changed
+    renderer.addBreak(0,1702,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color("#FF0000")));
+            
+    renderer.addBreak(1703,3404,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color("#FFFF00")));
+            
+    renderer.addBreak(3405,5107,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color("#00FF00")));
+            
+    featureLayer.setRenderer(renderer);
+    featureLayer.refresh();
+
+    legend.refresh();
+	
 }
 
 /**
@@ -342,9 +357,9 @@ function layerChange(layerNr) {
  * method for automatic (equal) breaks
  */
 function addEqualBreaks(number, colorStart, colorEnd) {
-    var breakStep = (maxValues[activeLayer] - minValues[activeLayer]) / (number);
-    var colorArray = generateColor(colorStart, colorEnd, number-1);
-    colorArray.reverse();
+
+    var breakStep = (maxValues[activeLayer] - minValues[activeLayer]) / (number + 1);
+    var colorArray = generateColor(colorStart, colorEnd, number);
 
     symbol = new esri.symbol.SimpleFillSymbol();
     symbol.setColor(new dojo.Color([150, 150, 150, 0.75]));

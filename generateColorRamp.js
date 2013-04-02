@@ -25,6 +25,7 @@ function generateColor(theColorBegin, theColorEnd, theNumSteps) {
         theB = interpolate(theB0, theB1, i, theNumSteps);
         theVal = (((theR << 8) | theG) << 8) | theB;
         colorArray[i] = theVal.toString(16);
+        console.log(theVal.toString(16));
     }
     return colorArray;
 }
