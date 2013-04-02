@@ -182,16 +182,10 @@ function initOperationalLayer() {
     featureLayer = new esri.layers.FeatureLayer("http://giv-learn.uni-muenster.de/ArcGIS/rest/services/LWL/lwl_collection/MapServer/" + activeLayer, {
         mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
         outFields: ["*"], //use all available fields in the data
-        maxAllowableOffset: calcOffset(),
         opacity: .50
     });
     featureLayer.setSelectionSymbol(new esri.symbol.SimpleFillSymbol());
     map.addLayers([featureLayer]);
-
-    dojo.connect(map, 'onZoomEnd', function() { //'simplify' vector map for faster loading, see calcOffset() documentation
-      map.maxOffset = calcOffset();
-      map.fl.setMaxAllowableOffset(app.maxOffset);
-    });
 
 
     console.log("layerIds:" + map.graphicsLayerIds);
@@ -199,14 +193,6 @@ function initOperationalLayer() {
 
 
 }
-
-/**
-* see http://help.arcgis.com/en/webapi/javascript/arcgis/help/jshelp_start.htm#jshelp/best_practices_feature_layers.htm
-*/
-function calcOffset() {
-  return (map.extent.getWidth() / map.width);
-}
-
 
 /**
  * additionally to the standard overlay, this can add an invisible,
@@ -369,7 +355,7 @@ function addEqualBreaks(number, colorStart, colorEnd) {
     symbol.setColor(new dojo.Color([150, 150, 150, 0.75]));
     var renderer = new esri.renderer.ClassBreaksRenderer(symbol, attributeFields[activeLayer]);
     
-    for (var i = 0; i < number; i++) {
+    for (var i = 0; i <= number; i++) {
         renderer.addBreak(Math.round((minValues[activeLayer] + i * breakStep) / 10) * 10,
         Math.round((minValues[activeLayer] + (i + 1) * breakStep) / 10) * 10,
         new esri.symbol.SimpleFillSymbol().setColor(dojo.colorFromHex('#' + colorArray[i])));
