@@ -22,11 +22,32 @@ dojo.ready(function () {
         slideAwayButton_split = dojo.byId("slideAwayButton_split");
 
 	
-    
-    dojo.connect(slideAwayButton_layer, "onclick", layerSlider);
-    
-    
-    
+    var layerBtnClicked = false;
+    dojo.connect(slideAwayButton_layer, "onclick", function (evt) {
+        if (!layerBtnClicked) {
+            dojo.fx.combine([
+            dojo.fadeIn({
+                node: slideTarget_layer
+            }),
+            dojo.fx.slideTo({
+                node: slideTarget_layer,
+                left: map.width - 450,
+                top: "0"
+            })]).play();
+            layerBtnClicked = true;
+        } else {
+            dojo.fx.combine([
+            dojo.fx.slideTo({
+                node: slideTarget_layer,
+                left: map.width + 50,
+                top: "0"
+            }),
+            dojo.fadeOut({
+                node: slideTarget_layer
+            })]).play();
+            layerBtnClicked = false;
+        }
+    });
     dojo.connect(slideBackButton_layer, "onclick", function (evt) {
         dojo.fx.combine([
         dojo.fx.slideTo({
@@ -44,7 +65,32 @@ dojo.ready(function () {
 
 	
     
-	dojo.connect(slideAwayButton_classes, "onclick", classesSlider);
+	var classesBtnClicked = false;    
+    dojo.connect(slideAwayButton_classes, "onclick", function (evt) {
+        if (!classesBtnClicked) {
+            dojo.fx.combine([
+            dojo.fadeIn({
+                node: slideTarget_classes
+            }),
+            dojo.fx.slideTo({
+                node: slideTarget_classes,
+                left: map.width - 450,
+                top: "150"
+            })]).play();
+            classesBtnClicked = true;
+        } else {
+            dojo.fx.combine([
+            dojo.fx.slideTo({
+                node: slideTarget_classes,
+                left: map.width + 50,
+                top: "150"
+            }),
+            dojo.fadeOut({
+                node: slideTarget_classes
+            })]).play();
+            classesBtnClicked = false;
+        }
+    });
     dojo.connect(slideBackButton_classes, "onclick", function (evt) {
         dojo.fx.combine([
         dojo.fx.slideTo({
@@ -120,65 +166,3 @@ dojo.ready(function () {
     });
 
 });
-
-var layerBtnClicked = false;
-
-var classesBtnClicked = false;
-
-function layerSlider() {
-	if(classesBtnClicked && !layerBtnClicked) classesSlider();
-		if(map != null){
-	        if (!layerBtnClicked) {
-	            dojo.fx.combine([
-	            dojo.fadeIn({
-	                node: slideTarget_layer
-	            }),
-	            dojo.fx.slideTo({
-	                node: slideTarget_layer,
-	                left: map.width - 450,
-	                top: "0"
-	            })]).play();
-	            layerBtnClicked = true;
-	        } else {
-	            dojo.fx.combine([
-	            dojo.fx.slideTo({
-	                node: slideTarget_layer,
-	                left: map.width + 50,
-	                top: "0"
-	            }),
-	            dojo.fadeOut({
-	                node: slideTarget_layer
-	            })]).play();
-	            layerBtnClicked = false;
-	        }
-		}
-    }
-    
-function classesSlider() {
-	if(layerBtnClicked && !classesBtnClicked) layerSlider();
-     if(map != null){
-        if (!classesBtnClicked) {
-            dojo.fx.combine([
-            dojo.fadeIn({
-                node: slideTarget_classes
-            }),
-            dojo.fx.slideTo({
-                node: slideTarget_classes,
-                left: map.width - 450,
-                top: "150"
-            })]).play();
-            classesBtnClicked = true;
-        } else {
-            dojo.fx.combine([
-            dojo.fx.slideTo({
-                node: slideTarget_classes,
-                left: map.width + 50,
-                top: "150"
-            }),
-            dojo.fadeOut({
-                node: slideTarget_classes
-            })]).play();
-            classesBtnClicked = false;
-        }
-	}
-}
