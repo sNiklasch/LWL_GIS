@@ -62,6 +62,7 @@ dojo.ready(function () {
     });
 
 
+    enableClasses();
 
     dojo.connect(slideBackButton_classes, "onclick", function (evt) {
         dojo.fx.combine([
@@ -76,6 +77,7 @@ dojo.ready(function () {
         classesBtnClicked = false;
     });
 
+    enableLegend();
 
 
     dojo.connect(slideBackButton_legend, "onclick", function (evt) {
