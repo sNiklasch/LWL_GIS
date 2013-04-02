@@ -133,7 +133,7 @@ function init() {
 
     onLoadCheck();
 
-	initialColorization();
+
 }
 
 
@@ -244,7 +244,6 @@ function connectDiagramFunc(layerNr) {
 
 /**
  * This method can assign a new color scheme to a layer
- * as used for individual breaks
  */
 function colorChange(count) {
 
@@ -265,29 +264,6 @@ function colorChange(count) {
     featureLayer.refresh();
 
     legend.refresh();
-}
-
-
-/**
- * This method is used to initially set classes - only used at startup! 
- */
-function initialColorization(){
-	symbol = new esri.symbol.SimpleFillSymbol();
-    symbol.setColor(new dojo.Color([150, 150, 150, 0.75]));
-    var renderer = new esri.renderer.ClassBreaksRenderer(symbol, attributeFields[activeLayer]);
-    
-    //the values are layer dependent, so if another initial layer is chosen, these values MUST be changed
-    renderer.addBreak(0,1702,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color("#FF0000")));
-            
-    renderer.addBreak(1703,3404,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color("#FFFF00")));
-            
-    renderer.addBreak(3405,5107,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color("#00FF00")));
-            
-    featureLayer.setRenderer(renderer);
-    featureLayer.refresh();
-
-    legend.refresh();
-	
 }
 
 /**
@@ -361,9 +337,6 @@ function addEqualBreaks(number, colorStart, colorEnd) {
         new esri.symbol.SimpleFillSymbol().setColor(dojo.colorFromHex('#' + colorArray[i])));
     }
 
-	var breaksList = document.getElementById("Breaks");
-	breaksList.innerHTML = '';
-	breakCount = 0;
     featureLayer.setRenderer(renderer);
     featureLayer.refresh();
 
