@@ -21,7 +21,7 @@
     </script>
     
     <!-- ArcGIS Server Script -->
-    <script src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.7">
+    <script src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.6">
     </script>
     <!-- Menu behaviour (icons, sliding etc.) -->
     <script src="wipeMenu.js" type="text/javascript">
@@ -74,7 +74,7 @@
               </a>
               <br>
               <input type="radio" name="Layer" value="Demographie" onchange="layerChange(3)">
-              Auswanderungsrate 
+              Demographie 
               <a id="demographieInfo" style="cursor: help;">
                 <img src="images/Help_sm.png">
               </a>
@@ -135,7 +135,7 @@
     </p>
     
     <!-- Individual classes -->
-    <div id="breaksPane" dojoType="dijit.TitlePane" title="Individuell" open="false" style="width:280px; overflow:auto; max-height:230px;">
+    <div id="breaksPane" dojoType="dijit.TitlePane" title="Individuell" open="true" style="width:280px; overflow:auto; max-height:230px;">
       <a> <!-- href="javascript:addIndivBreakField()"> -->
         <p>Diese Funktion ist zur Zeit deaktiviert.</p>
         <img src="images/plus20.png">

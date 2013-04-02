@@ -1,3 +1,5 @@
+dojo.require("dojo.fx");
+
 var breite = window.innerWidth - 450;
 var classesBtn = null;
 var legendBtn = null;
@@ -114,8 +116,9 @@ dojo.ready(function () {
             f2.src = "map.html";
             fs.appendChild(f2);
             dualView = true;
+            reLocate();
+            syncZoom();
         }
-      //checkMapExistence();
     });
 
 });
@@ -180,16 +183,4 @@ function classesSlider() {
             classesBtnClicked = false;
         }
 	}
-}
-
-/*
-* Wait until the map is initialized, then execute reLocate
-*/
-function checkMapExistence() {
-   if(map != null){
-      reLocate();
-   }else{
-      console.log("Waiting");
-      window.setTimeout("checkMapExistence();",100);
-   }
 }
